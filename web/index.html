@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>稀疏矩阵仓库 · 行列切片与布局切换</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="mark"></span>稀疏矩阵仓库</div>
+  <div class="meta"><span id="matrixMeta">未加载</span><span class="dot"></span><span id="revMeta">rev 0</span></div>
+  <div class="actions">
+    <button class="ghost" id="btnHelp" type="button">说明</button>
+    <button class="ghost" id="btnReset" type="button">清空仓库</button>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button type="button" data-panel="import" class="active">导入 / 版本</button>
+  <button type="button" data-panel="explore">查询与切片</button>
+  <button type="button" data-panel="storage">存储布局</button>
+  <button type="button" data-panel="labels">行列标签</button>
+  <button type="button" data-panel="compare">校正与对照</button>
+  <button type="button" data-panel="export">交付下载</button>
+</nav>
+
+<main>
+  <section class="panel active" id="panel-import">
+    <div class="grid two">
+      <div class="card">
+        <div class="card-head"><h2>导入三元组</h2><span class="hint">行标识 / 列标识 / 数值</span></div>
+        <div class="field">
+          <label for="tripleText">三元组文本 <span class="muted">CSV 或 TSV；空值/NA 为显式缺测，0 为显式零</span></label>
+          <textarea id="tripleText" spellcheck="false" rows="12"></textarea>
+        </div>
+        <div class="row">
+          <div class="field grow">
+            <label for="policy">重复坐标处理</label>
+            <select id="policy">
+              <option value="sum">求和（sum）</option>
+              <option value="latest">按来源版本取最新（latest）</option>
+            </select>
+          </div>
+          <div class="field grow">
+            <label for="versionLabel">版本标签</label>
+            <input id="versionLabel" placeholder="例如 2026-11 快照">
+          </div>
+          <div class="field grow">
+            <label for="defaultSource">来源名称 <span class="muted">可选</span></label>
+            <input id="defaultSource" placeholder="例如 survey-A">
+          </div>
+        </div>
+        <div class="row">
+          <div class="field grow">
+            <label for="importLayout">初始布局提示</label>
+            <select id="importLayout"><option value="csr">CSR 按行压缩</option><option value="csc">CSC 按列压缩</option></select>
+          </div>
+          <div class="field grow">
+            <label for="sourceVersion">默认来源版本号</label>
+            <input id="sourceVersion" type="number" min="0" value="1">
+          </div>
+          <div class="field grow end">
+            <button class="primary" id="btnImport" type="button">导入为新的数据版</button>
+          </div>
+        </div>
+        <div class="row samples">
+          <span class="muted">样例：</span>
+          <button class="chip" data-sample="sum" type="button">重复坐标相消为零</button>
+          <button class="chip" data-sample="latest" type="button">按来源版本取最新</button>
+          <button class="chip" data-sample="missing" type="button">只含缺测的列</button>
+          <button class="chip" data-sample="labels" type="button">新增标签（空行空列）</button>
+        </div>
+        <div id="importMsg" class="msg" hidden></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>数据版</h2><span class="hint">不同规则生成不同数据版</span></div>
+        <div id="versionList" class="version-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-explore">
+    <div class="card">
+      <div class="card-head">
+        <h2>按标签查行列 / 切片</h2>
+        <div class="seg" id="queryLayout">
+          <button type="button" data-layout="csr" class="active">CSR</button>
+          <button type="button" data-layout="csc">CSC</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field grow">
+          <label for="qVersion">数据版</label>
+          <select id="qVersion"></select>
+        </div>
+        <div class="field grow">
+          <label for="qRows">行标签 <span class="muted">逗号分隔，可留空</span></label>
+          <input id="qRows" placeholder="例如 A 或 A,B">
+        </div>
+        <div class="field grow">
+          <label for="qCols">列标签</label>
+          <input id="qCols" placeholder="例如 2025 或 2025,2026">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field grow">
+          <label for="qRowPos">行位置区间 <span class="muted">当前排序位置 lo:hi</span></label>
+          <input id="qRowPos" placeholder="例如 0:2">
+        </div>
+        <div class="field grow">
+          <label for="qColPos">列位置区间</label>
+          <input id="qColPos" placeholder="例如 1:3">
+        </div>
+        <div class="field grow">
+          <label for="qKinds">元素类型</label>
+          <select id="qKinds">
+            <option value="">全部</option>
+            <option value="value">数值</option>
+            <option value="zero">显式零</option>
+            <option value="missing">显式缺测</option>
+            <option value="value,zero">数值 + 显式零</option>
+          </select>
+        </div>
+        <div class="field end">
+          <button class="primary" id="btnQuery" type="button">查询</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field grow">
+          <label for="ptRow">点查行</label>
+          <input id="ptRow" placeholder="行标签">
+        </div>
+        <div class="field grow">
+          <label for="ptCol">点查列</label>
+          <input id="ptCol" placeholder="列标签">
+        </div>
+        <div class="field end">
+          <button class="ghost" id="btnPoint" type="button">定位单个元素</button>
+        </div>
+      </div>
+      <div id="queryMsg" class="msg" hidden></div>
+      <div class="split">
+        <div>
+          <h3 class="sub">命中元素 <span id="queryCount" class="pill"></span></h3>
+          <div class="table-wrap"><table id="queryTable" class="data"></table></div>
+        </div>
+        <div>
+          <h3 class="sub">物理数组（只读） <span id="arrayMeta" class="pill"></span></h3>
+          <div id="arrayView" class="arrays"></div>
+        </div>
+      </div>
+      <div class="legend">
+        <span class="badge value">数值</span>
+        <span class="badge zero">显式零</span>
+        <span class="badge missing">显式缺测</span>
+        <span class="badge absent">无元素</span>
+        <span class="muted">“无元素”与显式零、显式缺测是三种不同状态。</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-storage">
+    <div class="grid two">
+      <div class="card">
+        <div class="card-head"><h2>布局转换</h2><span class="hint">真实压缩数组，按内存预算分批</span></div>
+        <div class="row">
+          <div class="field grow">
+            <label for="sVersion">数据版</label>
+            <select id="sVersion"></select>
+          </div>
+          <div class="field grow">
+            <label for="budget">内存预算（字节 / 批）</label>
+            <input id="budget" type="number" min="256" step="256" value="4096">
+          </div>
+          <div class="field grow">
+            <label for="pace">每批停顿（毫秒）</label>
+            <input id="pace" type="number" min="0" max="2000" value="0">
+          </div>
+        </div>
+        <div class="layout-actions">
+          <div class="layout-card" data-layout="csr">
+            <div class="lc-head"><strong>CSR</strong><span class="state-label">未构建</span></div>
+            <p class="muted">按行压缩：indptr 长度 = 行数 + 1</p>
+            <div class="progress"><span></span></div>
+            <div class="lc-meta"></div>
+            <div class="lc-buttons">
+              <button class="primary" data-act="start" type="button">开始 / 继续</button>
+              <button class="ghost" data-act="pause" type="button">暂停</button>
+              <button class="ghost" data-act="resume" type="button">恢复</button>
+              <button class="ghost" data-act="verify" type="button">重新核对</button>
+              <button class="ghost" data-act="export" type="button">导出文件</button>
+            </div>
+          </div>
+          <div class="layout-card" data-layout="csc">
+            <div class="lc-head"><strong>CSC</strong><span class="state-label">未构建</span></div>
+            <p class="muted">按列压缩：indptr 长度 = 列数 + 1</p>
+            <div class="progress"><span></span></div>
+            <div class="lc-meta"></div>
+            <div class="lc-buttons">
+              <button class="primary" data-act="start" type="button">开始 / 继续</button>
+              <button class="ghost" data-act="pause" type="button">暂停</button>
+              <button class="ghost" data-act="resume" type="button">恢复</button>
+              <button class="ghost" data-act="verify" type="button">重新核对</button>
+              <button class="ghost" data-act="export" type="button">导出文件</button>
+            </div>
+          </div>
+        </div>
+        <div id="storageMsg" class="msg" hidden></div>
+        <div class="checks" id="checksPanel"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>数组内容</h2><span class="hint">indptr / indices / kinds / data</span></div>
+        <div class="seg" id="arrayLayout">
+          <button type="button" data-layout="csr" class="active">CSR</button>
+          <button type="button" data-layout="csc">CSC</button>
+        </div>
+        <div id="storageArrays" class="arrays tall"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-labels">
+    <div class="grid two">
+      <div class="card">
+        <div class="card-head"><h2>行标签</h2><span class="hint">独立编号，可重排</span></div>
+        <div id="rowLabels" class="label-list"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>列标签</h2><span class="hint">空行空列不删除</span></div>
+        <div id="colLabels" class="label-list"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><h2>新增标签</h2><span class="hint">新增不改变既有元素含义</span></div>
+      <div class="row">
+        <div class="field grow"><label for="newLabelAxis">轴</label><select id="newLabelAxis"><option value="row">行</option><option value="col">列</option></select></div>
+        <div class="field grow"><label for="newLabelName">名称</label><input id="newLabelName" placeholder="新标签名称"></div>
+        <div class="field end"><button class="primary" id="btnAddLabel" type="button">新增</button></div>
+      </div>
+      <div id="labelMsg" class="msg" hidden></div>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-compare">
+    <div class="card">
+      <div class="card-head"><h2>更正元素</h2><span class="hint">更正后旧布局失效，需重新转换</span></div>
+      <div class="row">
+        <div class="field grow"><label for="cVersion">数据版</label><select id="cVersion"></select></div>
+        <div class="field grow"><label for="cRow">行标签</label><input id="cRow" placeholder="行标签"></div>
+        <div class="field grow"><label for="cCol">列标签</label><input id="cCol" placeholder="列标签"></div>
+        <div class="field grow"><label for="cKind">新类型</label><select id="cKind"><option value="value">数值</option><option value="zero">显式零</option><option value="missing">显式缺测</option></select></div>
+        <div class="field grow"><label for="cValue">数值</label><input id="cValue" placeholder="仅数值类型使用"></div>
+        <div class="field end"><button class="primary" id="btnCorrect" type="button">应用更正</button></div>
+      </div>
+      <div id="correctMsg" class="msg" hidden></div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <h2>逻辑三元组 vs 存储数组</h2>
+        <div class="seg" id="compareLayout">
+          <button type="button" data-layout="csr" class="active">CSR</button>
+          <button type="button" data-layout="csc">CSC</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field grow"><label for="dVersion">数据版</label><select id="dVersion"></select></div>
+        <div class="field end"><button class="primary" id="btnCompare" type="button">对照</button></div>
+      </div>
+      <div id="compareMsg" class="msg" hidden></div>
+      <div class="compare-summary" id="compareSummary"></div>
+      <div class="split">
+        <div><h3 class="sub">逻辑三元组</h3><div class="table-wrap"><table id="logicalTable" class="data"></table></div></div>
+        <div><h3 class="sub">存储数组解码</h3><div class="table-wrap"><table id="storedTable" class="data"></table></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><h2>来源记录</h2><span class="hint">删除来源不删除数值</span></div>
+      <div id="sourceList" class="source-list"></div>
+      <div class="row">
+        <div class="field grow"><label for="sourceName">新增来源</label><input id="sourceName" placeholder="来源名称"></div>
+        <div class="field end"><button class="ghost" id="btnAddSource" type="button">添加</button></div>
+      </div>
+      <div id="sourceMsg" class="msg" hidden></div>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-export">
+    <div class="grid two">
+      <div class="card">
+        <div class="card-head"><h2>可下载存储文件</h2><span class="hint">.sparse 容器，含校验和</span></div>
+        <div id="exportList" class="export-list"></div>
+        <div id="exportMsg" class="msg" hidden></div>
+        <p class="muted small">未完成验证的布局不会出现在这里，也无法被读取。</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>操作记录</h2><span class="hint">最近 120 条</span></div>
+        <div id="auditList" class="audit"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="toast" class="toast" hidden></div>
+<div id="helpModal" class="modal" hidden>
+  <div class="modal-body">
+    <button class="modal-close" id="btnHelpClose" type="button" aria-label="关闭">×</button>
+    <h2>这个仓库做什么</h2>
+    <ul>
+      <li>上传 <strong>行标识 / 列标识 / 数值</strong> 三元组，作为逻辑数据版保存。</li>
+      <li>行列标签 <strong>独立编号</strong>；新增标签、重排行列只改变位置，不改变既有元素的业务含义。</li>
+      <li>同一坐标多次出现时，导入时选择 <strong>求和</strong> 或 <strong>按来源版本取最新</strong>，不同规则生成不同数据版。</li>
+      <li><strong>显式零</strong>、<strong>显式缺测</strong> 与 <strong>没有元素</strong> 分开保存，不因稀疏压缩被删掉。</li>
+      <li>空行、空列的标签保留；矩阵维度 = 标签编号数量，而非最大数值位置。</li>
+      <li>CSR / CSC 使用真实 <code>indptr</code>、<code>indices</code>、<code>kinds</code>、<code>data</code> 数组，转换按内存预算分批并可中断恢复。</li>
+      <li>发布前核对偏移单调、索引范围、坐标唯一与逐坐标数值；未完成布局不能参与读取。</li>
+    </ul>
+  </div>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

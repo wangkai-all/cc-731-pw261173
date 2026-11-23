@@ -1,0 +1,1303 @@
+{
+  "generated_from": "empty repository (Repository(tmpdir))",
+  "format": {
+    "container": "SPMATRIX",
+    "version": 1,
+    "sections": [
+      "indptr int64",
+      "indices int64",
+      "kinds uint8",
+      "data float64"
+    ],
+    "kind_codes": {
+      "value": 0,
+      "zero": 1,
+      "missing": 2
+    },
+    "zero": "kind=zero, data=0.0 (kept, never dropped)",
+    "missing": "kind=missing, data=NaN (kept; distinct from absent)",
+    "absent": "no slot at all",
+    "trailer": "trailing 64 ASCII hex chars = sha256 of everything before it"
+  },
+  "files": [
+    {
+      "sample": "sum-zero-cancel",
+      "description": "样例 1：重复坐标相消为零",
+      "note": "A/2024 的 1.50 与 -1.50 相加为 0，保留为**显式零**；A/2025 输入就是 0，也是显式零；A/2026 与 B/2024 为空值，存为**显式缺测**。",
+      "policy": "sum",
+      "version_id": 1,
+      "layout": "csr",
+      "shape": [
+        3,
+        3
+      ],
+      "nnz": 6,
+      "file": "v1-22b99e92-csr.sparse",
+      "bytes": 1694,
+      "sha256": "72eb60a72160b91fdaf0932f9f569bf9f99255bf8de29a847e52a357fd3724d2",
+      "indptr_head": [
+        0,
+        3,
+        5,
+        6
+      ],
+      "kinds_head": [
+        "zero",
+        "zero",
+        "missing",
+        "missing",
+        "value",
+        "value"
+      ],
+      "verified_checks": {
+        "arrays_aligned": true,
+        "indptr_length": true,
+        "indptr_zero_base": true,
+        "indptr_final_nnz": true,
+        "indptr_monotonic": true,
+        "indices_in_range": true,
+        "kind_codes_valid": true,
+        "kinds_values_consistent": true,
+        "coordinates_unique": true,
+        "coordinates_match_logical": true,
+        "values_match_logical": true,
+        "canonical_order": true,
+        "coordinates_complete": true,
+        "counts_match": true
+      },
+      "logical": [
+        {
+          "row": "A",
+          "col": "2024",
+          "row_id": 0,
+          "col_id": 0,
+          "kind": "zero",
+          "value": null,
+          "source": "budget",
+          "source_version": 2
+        },
+        {
+          "row": "A",
+          "col": "2025",
+          "row_id": 0,
+          "col_id": 1,
+          "kind": "zero",
+          "value": null,
+          "source": "budget",
+          "source_version": 1
+        },
+        {
+          "row": "A",
+          "col": "2026",
+          "row_id": 0,
+          "col_id": 2,
+          "kind": "missing",
+          "value": null,
+          "source": "budget",
+          "source_version": 1
+        },
+        {
+          "row": "B",
+          "col": "2024",
+          "row_id": 1,
+          "col_id": 0,
+          "kind": "missing",
+          "value": null,
+          "source": "actuals",
+          "source_version": 2
+        },
+        {
+          "row": "B",
+          "col": "2025",
+          "row_id": 1,
+          "col_id": 1,
+          "kind": "value",
+          "value": 3.25,
+          "source": "actuals",
+          "source_version": 1
+        },
+        {
+          "row": "C",
+          "col": "2026",
+          "row_id": 2,
+          "col_id": 2,
+          "kind": "value",
+          "value": 7.0,
+          "source": "budget",
+          "source_version": 1
+        }
+      ],
+      "empty_rows": [],
+      "empty_cols": [],
+      "counts": {
+        "value": 2,
+        "zero": 2,
+        "missing": 2
+      },
+      "roundtrip_ok": true
+    },
+    {
+      "sample": "sum-zero-cancel",
+      "description": "样例 1：重复坐标相消为零",
+      "note": "A/2024 的 1.50 与 -1.50 相加为 0，保留为**显式零**；A/2025 输入就是 0，也是显式零；A/2026 与 B/2024 为空值，存为**显式缺测**。",
+      "policy": "sum",
+      "version_id": 1,
+      "layout": "csc",
+      "shape": [
+        3,
+        3
+      ],
+      "nnz": 6,
+      "file": "v1-22b99e92-csc.sparse",
+      "bytes": 1694,
+      "sha256": "50c23a1226d3ff10e79e0031cb0ec7651d2298b97be8b980893c4b9d21f42d44",
+      "indptr_head": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "kinds_head": [
+        "zero",
+        "missing",
+        "zero",
+        "value",
+        "missing",
+        "value"
+      ],
+      "verified_checks": {
+        "arrays_aligned": true,
+        "indptr_length": true,
+        "indptr_zero_base": true,
+        "indptr_final_nnz": true,
+        "indptr_monotonic": true,
+        "indices_in_range": true,
+        "kind_codes_valid": true,
+        "kinds_values_consistent": true,
+        "coordinates_unique": true,
+        "coordinates_match_logical": true,
+        "values_match_logical": true,
+        "canonical_order": true,
+        "coordinates_complete": true,
+        "counts_match": true
+      },
+      "logical": [
+        {
+          "row": "A",
+          "col": "2024",
+          "row_id": 0,
+          "col_id": 0,
+          "kind": "zero",
+          "value": null,
+          "source": "budget",
+          "source_version": 2
+        },
+        {
+          "row": "A",
+          "col": "2025",
+          "row_id": 0,
+          "col_id": 1,
+          "kind": "zero",
+          "value": null,
+          "source": "budget",
+          "source_version": 1
+        },
+        {
+          "row": "A",
+          "col": "2026",
+          "row_id": 0,
+          "col_id": 2,
+          "kind": "missing",
+          "value": null,
+          "source": "budget",
+          "source_version": 1
+        },
+        {
+          "row": "B",
+          "col": "2024",
+          "row_id": 1,
+          "col_id": 0,
+          "kind": "missing",
+          "value": null,
+          "source": "actuals",
+          "source_version": 2
+        },
+        {
+          "row": "B",
+          "col": "2025",
+          "row_id": 1,
+          "col_id": 1,
+          "kind": "value",
+          "value": 3.25,
+          "source": "actuals",
+          "source_version": 1
+        },
+        {
+          "row": "C",
+          "col": "2026",
+          "row_id": 2,
+          "col_id": 2,
+          "kind": "value",
+          "value": 7.0,
+          "source": "budget",
+          "source_version": 1
+        }
+      ],
+      "empty_rows": [],
+      "empty_cols": [],
+      "counts": {
+        "value": 2,
+        "zero": 2,
+        "missing": 2
+      },
+      "roundtrip_ok": true
+    },
+    {
+      "sample": "latest-by-source-version",
+      "description": "样例 2：按来源版本取最新",
+      "note": "A/2024 收到版本 1、2、3 三条，取版本 3 的 2.75；B/2025 取版本 2 的 4.5（版本 1 是缺测）；C/2024 取版本 4 的缺测。",
+      "policy": "latest",
+      "version_id": 2,
+      "layout": "csr",
+      "shape": [
+        3,
+        3
+      ],
+      "nnz": 3,
+      "file": "v2-e5d5fd92-csr.sparse",
+      "bytes": 1644,
+      "sha256": "1e4f122195fd251d8cc59cd41f76e8d003a2e03c35abc553982ae69a1f1921ad",
+      "indptr_head": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "kinds_head": [
+        "value",
+        "value",
+        "missing"
+      ],
+      "verified_checks": {
+        "arrays_aligned": true,
+        "indptr_length": true,
+        "indptr_zero_base": true,
+        "indptr_final_nnz": true,
+        "indptr_monotonic": true,
+        "indices_in_range": true,
+        "kind_codes_valid": true,
+        "kinds_values_consistent": true,
+        "coordinates_unique": true,
+        "coordinates_match_logical": true,
+        "values_match_logical": true,
+        "canonical_order": true,
+        "coordinates_complete": true,
+        "counts_match": true
+      },
+      "logical": [
+        {
+          "row": "A",
+          "col": "2024",
+          "row_id": 0,
+          "col_id": 0,
+          "kind": "value",
+          "value": 2.75,
+          "source": "actuals",
+          "source_version": 3
+        },
+        {
+          "row": "B",
+          "col": "2025",
+          "row_id": 1,
+          "col_id": 1,
+          "kind": "value",
+          "value": 4.5,
+          "source": "actuals",
+          "source_version": 2
+        },
+        {
+          "row": "C",
+          "col": "2024",
+          "row_id": 2,
+          "col_id": 0,
+          "kind": "missing",
+          "value": null,
+          "source": "revised",
+          "source_version": 4
+        }
+      ],
+      "empty_rows": [],
+      "empty_cols": [
+        "2026"
+      ],
+      "counts": {
+        "value": 2,
+        "zero": 0,
+        "missing": 1
+      },
+      "roundtrip_ok": true
+    },
+    {
+      "sample": "latest-by-source-version",
+      "description": "样例 2：按来源版本取最新",
+      "note": "A/2024 收到版本 1、2、3 三条，取版本 3 的 2.75；B/2025 取版本 2 的 4.5（版本 1 是缺测）；C/2024 取版本 4 的缺测。",
+      "policy": "latest",
+      "version_id": 2,
+      "layout": "csc",
+      "shape": [
+        3,
+        3
+      ],
+      "nnz": 3,
+      "file": "v2-e5d5fd92-csc.sparse",
+      "bytes": 1645,
+      "sha256": "5a651f584de529c1e02da515d4fa6edc9ad9a34a7f31c3455db6b2d432d6da47",
+      "indptr_head": [
+        0,
+        2,
+        3,
+        3
+      ],
+      "kinds_head": [
+        "value",
+        "missing",
+        "value"
+      ],
+      "verified_checks": {
+        "arrays_aligned": true,
+        "indptr_length": true,
+        "indptr_zero_base": true,
+        "indptr_final_nnz": true,
+        "indptr_monotonic": true,
+        "indices_in_range": true,
+        "kind_codes_valid": true,
+        "kinds_values_consistent": true,
+        "coordinates_unique": true,
+        "coordinates_match_logical": true,
+        "values_match_logical": true,
+        "canonical_order": true,
+        "coordinates_complete": true,
+        "counts_match": true
+      },
+      "logical": [
+        {
+          "row": "A",
+          "col": "2024",
+          "row_id": 0,
+          "col_id": 0,
+          "kind": "value",
+          "value": 2.75,
+          "source": "actuals",
+          "source_version": 3
+        },
+        {
+          "row": "B",
+          "col": "2025",
+          "row_id": 1,
+          "col_id": 1,
+          "kind": "value",
+          "value": 4.5,
+          "source": "actuals",
+          "source_version": 2
+        },
+        {
+          "row": "C",
+          "col": "2024",
+          "row_id": 2,
+          "col_id": 0,
+          "kind": "missing",
+          "value": null,
+          "source": "revised",
+          "source_version": 4
+        }
+      ],
+      "empty_rows": [],
+      "empty_cols": [
+        "2026"
+      ],
+      "counts": {
+        "value": 2,
+        "zero": 0,
+        "missing": 1
+      },
+      "roundtrip_ok": true
+    },
+    {
+      "sample": "missing-only-column",
+      "description": "样例 3：只含缺测的列",
+      "note": "2026 列三个坐标全部是缺测，**整列只含缺测**但仍保留；该版本没有向 2025 列导入元素，它是**空列**，标签依旧存在（标签全局共享，编号来自样例 2 的列）。",
+      "policy": "sum",
+      "version_id": 3,
+      "layout": "csr",
+      "shape": [
+        3,
+        3
+      ],
+      "nnz": 5,
+      "file": "v3-f1fb6e5f-csr.sparse",
+      "bytes": 1670,
+      "sha256": "be5191a9301c9870d88c7c996fc42eb671466179559f4c3103ca4db28813b77c",
+      "indptr_head": [
+        0,
+        2,
+        4,
+        5
+      ],
+      "kinds_head": [
+        "value",
+        "missing",
+        "value",
+        "missing",
+        "missing"
+      ],
+      "verified_checks": {
+        "arrays_aligned": true,
+        "indptr_length": true,
+        "indptr_zero_base": true,
+        "indptr_final_nnz": true,
+        "indptr_monotonic": true,
+        "indices_in_range": true,
+        "kind_codes_valid": true,
+        "kinds_values_consistent": true,
+        "coordinates_unique": true,
+        "coordinates_match_logical": true,
+        "values_match_logical": true,
+        "canonical_order": true,
+        "coordinates_complete": true,
+        "counts_match": true
+      },
+      "logical": [
+        {
+          "row": "A",
+          "col": "2024",
+          "row_id": 0,
+          "col_id": 0,
+          "kind": "value",
+          "value": 1.0,
+          "source": "plan",
+          "source_version": 1
+        },
+        {
+          "row": "A",
+          "col": "2026",
+          "row_id": 0,
+          "col_id": 2,
+          "kind": "missing",
+          "value": null,
+          "source": "plan",
+          "source_version": 1
+        },
+        {
+          "row": "B",
+          "col": "2024",
+          "row_id": 1,
+          "col_id": 0,
+          "kind": "value",
+          "value": 2.0,
+          "source": "actuals",
+          "source_version": 1
+        },
+        {
+          "row": "B",
+          "col": "2026",
+          "row_id": 1,
+          "col_id": 2,
+          "kind": "missing",
+          "value": null,
+          "source": "actuals",
+          "source_version": 2
+        },
+        {
+          "row": "C",
+          "col": "2026",
+          "row_id": 2,
+          "col_id": 2,
+          "kind": "missing",
+          "value": null,
+          "source": "plan",
+          "source_version": 3
+        }
+      ],
+      "empty_rows": [],
+      "empty_cols": [
+        "2025"
+      ],
+      "counts": {
+        "value": 2,
+        "zero": 0,
+        "missing": 3
+      },
+      "roundtrip_ok": true
+    },
+    {
+      "sample": "missing-only-column",
+      "description": "样例 3：只含缺测的列",
+      "note": "2026 列三个坐标全部是缺测，**整列只含缺测**但仍保留；该版本没有向 2025 列导入元素，它是**空列**，标签依旧存在（标签全局共享，编号来自样例 2 的列）。",
+      "policy": "sum",
+      "version_id": 3,
+      "layout": "csc",
+      "shape": [
+        3,
+        3
+      ],
+      "nnz": 5,
+      "file": "v3-f1fb6e5f-csc.sparse",
+      "bytes": 1671,
+      "sha256": "2e74c241e2a42e01f27b8c207132c028c6a29627438badc6e01d19b34a27f684",
+      "indptr_head": [
+        0,
+        2,
+        2,
+        5
+      ],
+      "kinds_head": [
+        "value",
+        "value",
+        "missing",
+        "missing",
+        "missing"
+      ],
+      "verified_checks": {
+        "arrays_aligned": true,
+        "indptr_length": true,
+        "indptr_zero_base": true,
+        "indptr_final_nnz": true,
+        "indptr_monotonic": true,
+        "indices_in_range": true,
+        "kind_codes_valid": true,
+        "kinds_values_consistent": true,
+        "coordinates_unique": true,
+        "coordinates_match_logical": true,
+        "values_match_logical": true,
+        "canonical_order": true,
+        "coordinates_complete": true,
+        "counts_match": true
+      },
+      "logical": [
+        {
+          "row": "A",
+          "col": "2024",
+          "row_id": 0,
+          "col_id": 0,
+          "kind": "value",
+          "value": 1.0,
+          "source": "plan",
+          "source_version": 1
+        },
+        {
+          "row": "A",
+          "col": "2026",
+          "row_id": 0,
+          "col_id": 2,
+          "kind": "missing",
+          "value": null,
+          "source": "plan",
+          "source_version": 1
+        },
+        {
+          "row": "B",
+          "col": "2024",
+          "row_id": 1,
+          "col_id": 0,
+          "kind": "value",
+          "value": 2.0,
+          "source": "actuals",
+          "source_version": 1
+        },
+        {
+          "row": "B",
+          "col": "2026",
+          "row_id": 1,
+          "col_id": 2,
+          "kind": "missing",
+          "value": null,
+          "source": "actuals",
+          "source_version": 2
+        },
+        {
+          "row": "C",
+          "col": "2026",
+          "row_id": 2,
+          "col_id": 2,
+          "kind": "missing",
+          "value": null,
+          "source": "plan",
+          "source_version": 3
+        }
+      ],
+      "empty_rows": [],
+      "empty_cols": [
+        "2025"
+      ],
+      "counts": {
+        "value": 2,
+        "zero": 0,
+        "missing": 3
+      },
+      "roundtrip_ok": true
+    },
+    {
+      "sample": "added-labels",
+      "description": "样例 4：新增标签（空行空列）",
+      "note": "在样例 2 的数据上追加行标签「D-空行」与列标签「2027-空列」，矩阵从 3×3 变成 4×4。两者都没有元素：行 D 与列 2027 在数组里只有空区间，但**标签保留**；维度由标签数量决定，不看数值位置。",
+      "policy": "latest",
+      "version_id": 4,
+      "layout": "csr",
+      "shape": [
+        4,
+        4
+      ],
+      "nnz": 3,
+      "file": "v4-7f237a33-csr.sparse",
+      "bytes": 1743,
+      "sha256": "2cf01941bad3182f11d53114bd995dc39aaec293f6e1f2ae45bea935d527a770",
+      "indptr_head": [
+        0,
+        1,
+        2,
+        3,
+        3
+      ],
+      "kinds_head": [
+        "value",
+        "value",
+        "missing"
+      ],
+      "verified_checks": {
+        "arrays_aligned": true,
+        "indptr_length": true,
+        "indptr_zero_base": true,
+        "indptr_final_nnz": true,
+        "indptr_monotonic": true,
+        "indices_in_range": true,
+        "kind_codes_valid": true,
+        "kinds_values_consistent": true,
+        "coordinates_unique": true,
+        "coordinates_match_logical": true,
+        "values_match_logical": true,
+        "canonical_order": true,
+        "coordinates_complete": true,
+        "counts_match": true
+      },
+      "logical": [
+        {
+          "row": "A",
+          "col": "2024",
+          "row_id": 0,
+          "col_id": 0,
+          "kind": "value",
+          "value": 2.75,
+          "source": "actuals",
+          "source_version": 3
+        },
+        {
+          "row": "B",
+          "col": "2025",
+          "row_id": 1,
+          "col_id": 1,
+          "kind": "value",
+          "value": 4.5,
+          "source": "actuals",
+          "source_version": 2
+        },
+        {
+          "row": "C",
+          "col": "2024",
+          "row_id": 2,
+          "col_id": 0,
+          "kind": "missing",
+          "value": null,
+          "source": "revised",
+          "source_version": 4
+        }
+      ],
+      "empty_rows": [
+        "D-空行"
+      ],
+      "empty_cols": [
+        "2026",
+        "2027-空列"
+      ],
+      "counts": {
+        "value": 2,
+        "zero": 0,
+        "missing": 1
+      },
+      "roundtrip_ok": true
+    },
+    {
+      "sample": "added-labels",
+      "description": "样例 4：新增标签（空行空列）",
+      "note": "在样例 2 的数据上追加行标签「D-空行」与列标签「2027-空列」，矩阵从 3×3 变成 4×4。两者都没有元素：行 D 与列 2027 在数组里只有空区间，但**标签保留**；维度由标签数量决定，不看数值位置。",
+      "policy": "latest",
+      "version_id": 4,
+      "layout": "csc",
+      "shape": [
+        4,
+        4
+      ],
+      "nnz": 3,
+      "file": "v4-7f237a33-csc.sparse",
+      "bytes": 1743,
+      "sha256": "9d93fc34e72f178d5837a28ad82169e6668dc159581783803092150bd720c285",
+      "indptr_head": [
+        0,
+        2,
+        3,
+        3,
+        3
+      ],
+      "kinds_head": [
+        "value",
+        "missing",
+        "value"
+      ],
+      "verified_checks": {
+        "arrays_aligned": true,
+        "indptr_length": true,
+        "indptr_zero_base": true,
+        "indptr_final_nnz": true,
+        "indptr_monotonic": true,
+        "indices_in_range": true,
+        "kind_codes_valid": true,
+        "kinds_values_consistent": true,
+        "coordinates_unique": true,
+        "coordinates_match_logical": true,
+        "values_match_logical": true,
+        "canonical_order": true,
+        "coordinates_complete": true,
+        "counts_match": true
+      },
+      "logical": [
+        {
+          "row": "A",
+          "col": "2024",
+          "row_id": 0,
+          "col_id": 0,
+          "kind": "value",
+          "value": 2.75,
+          "source": "actuals",
+          "source_version": 3
+        },
+        {
+          "row": "B",
+          "col": "2025",
+          "row_id": 1,
+          "col_id": 1,
+          "kind": "value",
+          "value": 4.5,
+          "source": "actuals",
+          "source_version": 2
+        },
+        {
+          "row": "C",
+          "col": "2024",
+          "row_id": 2,
+          "col_id": 0,
+          "kind": "missing",
+          "value": null,
+          "source": "revised",
+          "source_version": 4
+        }
+      ],
+      "empty_rows": [
+        "D-空行"
+      ],
+      "empty_cols": [
+        "2026",
+        "2027-空列"
+      ],
+      "counts": {
+        "value": 2,
+        "zero": 0,
+        "missing": 1
+      },
+      "roundtrip_ok": true
+    }
+  ],
+  "audit": [
+    {
+      "at": 1795424437.7938573,
+      "action": "layout.verify",
+      "detail": {
+        "version_id": 4,
+        "layout": "csc",
+        "ok": true
+      }
+    },
+    {
+      "at": 1795424437.7762058,
+      "action": "layout.export",
+      "detail": {
+        "version_id": 4,
+        "layout": "csc",
+        "name": "v4-7f237a33-csc.sparse",
+        "bytes": 1743,
+        "sha256": "9d93fc34e72f178d"
+      }
+    },
+    {
+      "at": 1795424437.7678163,
+      "action": "layout.publish",
+      "detail": {
+        "version_id": 4,
+        "layout": "csc",
+        "nnz": 3,
+        "shape": [
+          4,
+          4
+        ],
+        "digest": "11e188b70f2bac00"
+      }
+    },
+    {
+      "at": 1795424437.7390587,
+      "action": "layout.start",
+      "detail": {
+        "version_id": 4,
+        "layout": "csc",
+        "budget": 256,
+        "chunk": 8,
+        "resume_from": 0,
+        "total": 3,
+        "restart": false
+      }
+    },
+    {
+      "at": 1795424437.7295005,
+      "action": "layout.verify",
+      "detail": {
+        "version_id": 4,
+        "layout": "csr",
+        "ok": true
+      }
+    },
+    {
+      "at": 1795424437.712865,
+      "action": "layout.export",
+      "detail": {
+        "version_id": 4,
+        "layout": "csr",
+        "name": "v4-7f237a33-csr.sparse",
+        "bytes": 1743,
+        "sha256": "2cf01941bad3182f"
+      }
+    },
+    {
+      "at": 1795424437.7043219,
+      "action": "layout.publish",
+      "detail": {
+        "version_id": 4,
+        "layout": "csr",
+        "nnz": 3,
+        "shape": [
+          4,
+          4
+        ],
+        "digest": "ed0116070208d995"
+      }
+    },
+    {
+      "at": 1795424437.6752775,
+      "action": "layout.start",
+      "detail": {
+        "version_id": 4,
+        "layout": "csr",
+        "budget": 256,
+        "chunk": 8,
+        "resume_from": 0,
+        "total": 3,
+        "restart": false
+      }
+    },
+    {
+      "at": 1795424437.667145,
+      "action": "label.add",
+      "detail": {
+        "axis": "col",
+        "label_id": 3,
+        "name": "2027-空列",
+        "invalidated": []
+      }
+    },
+    {
+      "at": 1795424437.6628056,
+      "action": "label.add",
+      "detail": {
+        "axis": "row",
+        "label_id": 3,
+        "name": "D-空行",
+        "invalidated": [
+          "1:csr",
+          "1:csc",
+          "2:csr",
+          "2:csc",
+          "3:csr",
+          "3:csc"
+        ]
+      }
+    },
+    {
+      "at": 1795424437.6581333,
+      "action": "version.import",
+      "detail": {
+        "version_id": 4,
+        "policy": "latest",
+        "records": 7,
+        "duplicates": 4,
+        "stored": 3,
+        "label": "样例 4：新增标签（空行空列）"
+      }
+    },
+    {
+      "at": 1795424437.6425762,
+      "action": "layout.export",
+      "detail": {
+        "version_id": 3,
+        "layout": "csc",
+        "name": "v3-f1fb6e5f-csc.sparse",
+        "bytes": 1671,
+        "sha256": "2e74c241e2a42e01"
+      }
+    },
+    {
+      "at": 1795424437.633523,
+      "action": "layout.verify",
+      "detail": {
+        "version_id": 3,
+        "layout": "csc",
+        "ok": true
+      }
+    },
+    {
+      "at": 1795424437.628927,
+      "action": "layout.publish",
+      "detail": {
+        "version_id": 3,
+        "layout": "csc",
+        "nnz": 5,
+        "shape": [
+          3,
+          3
+        ],
+        "digest": "1802e7f639100d42"
+      }
+    },
+    {
+      "at": 1795424437.600251,
+      "action": "layout.start",
+      "detail": {
+        "version_id": 3,
+        "layout": "csc",
+        "budget": 256,
+        "chunk": 8,
+        "resume_from": 0,
+        "total": 5,
+        "restart": false
+      }
+    },
+    {
+      "at": 1795424437.5750208,
+      "action": "layout.export",
+      "detail": {
+        "version_id": 3,
+        "layout": "csr",
+        "name": "v3-f1fb6e5f-csr.sparse",
+        "bytes": 1670,
+        "sha256": "be5191a9301c9870"
+      }
+    },
+    {
+      "at": 1795424437.5671573,
+      "action": "layout.verify",
+      "detail": {
+        "version_id": 3,
+        "layout": "csr",
+        "ok": true
+      }
+    },
+    {
+      "at": 1795424437.5622025,
+      "action": "layout.publish",
+      "detail": {
+        "version_id": 3,
+        "layout": "csr",
+        "nnz": 5,
+        "shape": [
+          3,
+          3
+        ],
+        "digest": "642fe6da5cca7fd5"
+      }
+    },
+    {
+      "at": 1795424437.5328238,
+      "action": "layout.start",
+      "detail": {
+        "version_id": 3,
+        "layout": "csr",
+        "budget": 256,
+        "chunk": 8,
+        "resume_from": 0,
+        "total": 5,
+        "restart": false
+      }
+    },
+    {
+      "at": 1795424437.5236442,
+      "action": "version.import",
+      "detail": {
+        "version_id": 3,
+        "policy": "sum",
+        "records": 5,
+        "duplicates": 0,
+        "stored": 5,
+        "label": "样例 3：只含缺测的列"
+      }
+    },
+    {
+      "at": 1795424437.5056012,
+      "action": "layout.export",
+      "detail": {
+        "version_id": 2,
+        "layout": "csc",
+        "name": "v2-e5d5fd92-csc.sparse",
+        "bytes": 1645,
+        "sha256": "5a651f584de529c1"
+      }
+    },
+    {
+      "at": 1795424437.4970014,
+      "action": "layout.verify",
+      "detail": {
+        "version_id": 2,
+        "layout": "csc",
+        "ok": true
+      }
+    },
+    {
+      "at": 1795424437.4923964,
+      "action": "layout.publish",
+      "detail": {
+        "version_id": 2,
+        "layout": "csc",
+        "nnz": 3,
+        "shape": [
+          3,
+          3
+        ],
+        "digest": "eebd4ee95eef2856"
+      }
+    },
+    {
+      "at": 1795424437.4591575,
+      "action": "layout.start",
+      "detail": {
+        "version_id": 2,
+        "layout": "csc",
+        "budget": 256,
+        "chunk": 8,
+        "resume_from": 0,
+        "total": 3,
+        "restart": false
+      }
+    },
+    {
+      "at": 1795424437.431315,
+      "action": "layout.export",
+      "detail": {
+        "version_id": 2,
+        "layout": "csr",
+        "name": "v2-e5d5fd92-csr.sparse",
+        "bytes": 1644,
+        "sha256": "1e4f122195fd251d"
+      }
+    },
+    {
+      "at": 1795424437.4181852,
+      "action": "layout.verify",
+      "detail": {
+        "version_id": 2,
+        "layout": "csr",
+        "ok": true
+      }
+    },
+    {
+      "at": 1795424437.4130619,
+      "action": "layout.publish",
+      "detail": {
+        "version_id": 2,
+        "layout": "csr",
+        "nnz": 3,
+        "shape": [
+          3,
+          3
+        ],
+        "digest": "37789b687ce13a8b"
+      }
+    },
+    {
+      "at": 1795424437.3790004,
+      "action": "layout.start",
+      "detail": {
+        "version_id": 2,
+        "layout": "csr",
+        "budget": 256,
+        "chunk": 8,
+        "resume_from": 0,
+        "total": 3,
+        "restart": false
+      }
+    },
+    {
+      "at": 1795424437.365828,
+      "action": "version.import",
+      "detail": {
+        "version_id": 2,
+        "policy": "latest",
+        "records": 7,
+        "duplicates": 4,
+        "stored": 3,
+        "label": "样例 2：按来源版本取最新"
+      }
+    },
+    {
+      "at": 1795424437.3563068,
+      "action": "source.add",
+      "detail": {
+        "source_id": 4,
+        "name": "revised"
+      }
+    },
+    {
+      "at": 1795424437.352131,
+      "action": "source.add",
+      "detail": {
+        "source_id": 3,
+        "name": "plan"
+      }
+    },
+    {
+      "at": 1795424437.3347304,
+      "action": "layout.export",
+      "detail": {
+        "version_id": 1,
+        "layout": "csc",
+        "name": "v1-22b99e92-csc.sparse",
+        "bytes": 1694,
+        "sha256": "50c23a1226d3ff10"
+      }
+    },
+    {
+      "at": 1795424437.3264027,
+      "action": "layout.verify",
+      "detail": {
+        "version_id": 1,
+        "layout": "csc",
+        "ok": true
+      }
+    },
+    {
+      "at": 1795424437.3223135,
+      "action": "layout.publish",
+      "detail": {
+        "version_id": 1,
+        "layout": "csc",
+        "nnz": 6,
+        "shape": [
+          3,
+          3
+        ],
+        "digest": "85d4e249bed52e70"
+      }
+    },
+    {
+      "at": 1795424437.291785,
+      "action": "layout.start",
+      "detail": {
+        "version_id": 1,
+        "layout": "csc",
+        "budget": 256,
+        "chunk": 8,
+        "resume_from": 0,
+        "total": 6,
+        "restart": false
+      }
+    },
+    {
+      "at": 1795424437.2709236,
+      "action": "layout.export",
+      "detail": {
+        "version_id": 1,
+        "layout": "csr",
+        "name": "v1-22b99e92-csr.sparse",
+        "bytes": 1694,
+        "sha256": "72eb60a72160b91f"
+      }
+    },
+    {
+      "at": 1795424437.2630024,
+      "action": "layout.verify",
+      "detail": {
+        "version_id": 1,
+        "layout": "csr",
+        "ok": true
+      }
+    },
+    {
+      "at": 1795424437.258139,
+      "action": "layout.publish",
+      "detail": {
+        "version_id": 1,
+        "layout": "csr",
+        "nnz": 6,
+        "shape": [
+          3,
+          3
+        ],
+        "digest": "fda2eaf45ae4607b"
+      }
+    },
+    {
+      "at": 1795424437.230255,
+      "action": "layout.start",
+      "detail": {
+        "version_id": 1,
+        "layout": "csr",
+        "budget": 256,
+        "chunk": 8,
+        "resume_from": 0,
+        "total": 6,
+        "restart": false
+      }
+    },
+    {
+      "at": 1795424437.218593,
+      "action": "version.import",
+      "detail": {
+        "version_id": 1,
+        "policy": "sum",
+        "records": 7,
+        "duplicates": 1,
+        "stored": 6,
+        "label": "样例 1：重复坐标相消为零"
+      }
+    },
+    {
+      "at": 1795424437.2146122,
+      "action": "source.add",
+      "detail": {
+        "source_id": 2,
+        "name": "actuals"
+      }
+    },
+    {
+      "at": 1795424437.2095087,
+      "action": "source.add",
+      "detail": {
+        "source_id": 1,
+        "name": "budget"
+      }
+    }
+  ]
+}
